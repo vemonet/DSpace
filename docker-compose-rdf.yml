@@ -1,0 +1,61 @@
+version: '3.7'
+
+services:
+  # dspace:
+  #   environment:
+  #   # __D__ -> -
+  #   # __P__ -> .
+  #   - rdf__P__enabled=true
+  #   - rdf__P__contextPath=http://localhost:8080/rdf
+  #   - rdf__P__storage__P__graphstore__P__endpoint=http://virtuoso:8890/sparql
+  #   - rdf__P__public__P__sparql__P__endpoint=http://virtuoso:8890/sparql
+  #   - rdf__P__storage__P__graphstore__P__authentication=yes
+  #   - rdf__P__storage__P__graphstore__P__login=dba
+  #   - rdf__P__storage__P__graphstore__P__password=dba
+  #   - rdf__P__storage__P__sparql__P__authentication=yes
+  #   - rdf__P__storage__P__sparql__P__login=dba
+  #   - rdf__P__storage__P__sparql__P__password=mypassword
+  
+  virtuoso:
+    container_name: dspacevirtuoso
+    image: umids/d2s-virtuoso:latest
+    # image: tenforce/virtuoso:1.3.2-virtuoso7.2.5.1
+    volumes:
+      - triplestore_virtuoso:/data
+    ports:
+      - 8890:8890
+      - 1111:1111
+    environment:
+      # http://vos.openlinksw.com/owiki/wiki/VOS/VirtRDFPerformanceTuning
+      # http://docs.openlinksw.com/virtuoso/rdfperfgeneral/
+      - DBA_PASSWORD=mypassword
+      - SPARQL_UPDATE=true
+      - DEFAULT_GRAPH=https://w3id.org/eureka/graph
+      - VIRT_Parameters_DirsAllowed=., /usr/local/virtuoso-opensource/share/virtuoso/vad, /usr/local/virtuoso-opensource/var/lib/virtuoso/db
+      - VIRT_SPARQL_ResultSetMaxRows=999999999999999999
+      - VIRT_SPARQL_MaxQueryCostEstimationTime=0
+      - VIRT_SPARQL_MaxQueryExecutionTime=14400
+      - VIRT_VDB_VDBDisconnectTimeout=7200000
+      - VIRT_Client_SQL_QUERY_TIMEOUT=14400000
+      - VIRT_CLient_SQL_TXN_TIMEOUT=14400000
+      - VIRT_Database_ErrorLogLevel=0 # default: 7 is maximum logs
+      - VIRT_Parameters_Timeout=7200
+      - VIRT_Parameters_TransactionAfterImageLimit=5000000000 # default is 50M
+      - VIRT_Parameters_NumberOfBuffers=493674 # To use up to 4G of RAM according to documentation
+      # Each buffer caches one 8K page of data and occupies approximately 8700 bytes of memory.
+      # - VIRT_Parameters_NumberOfBuffers=680000 # For 16G systems according to Optimization docs, but cause freeze
+      # - VIRT_Parameters_MaxDirtyBuffers=500000
+      # - VIRT_Parameters_NumberOfBuffers=5450000 # For 64G systems
+      # - VIRT_Parameters_MaxDirtyBuffers=4000000
+      # - VIRT_Parameters_MaxCheckpointRemap=4000
+      # - VIRT_Parameters_MaxClientConnections		= 10 # Better to reduce if a lot of big requests
+      # - VIRT_SPARQL_DefaultQuery=select distinct ?Concept where {[] a ?Concept} LIMIT 100
+      # - VIRT_VDB_VDBDisconnectTimeout=7200000
+      # - VIRT_Client_SQL_QUERY_TIMEOUT=14400000
+      # - VIRT_CLient_SQL_TXN_TIMEOUT=14400000
+    networks:
+      - dspacenet
+    restart: unless-stopped
+
+volumes:
+  triplestore_virtuoso:
