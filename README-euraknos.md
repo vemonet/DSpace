@@ -9,6 +9,13 @@ DSpace installation instructions:
 
 ### Deploy
 
+Clone this repository:
+
+```bash
+git clone https://github.com/vemonet/DSpace.git
+cd DSpace
+```
+
 Pull images:
 
 ```bash
@@ -59,11 +66,13 @@ Stop DSpace:
 docker-compose -p d7 -f docker-compose.yml -f dspace/src/main/docker-compose/docker-compose-angular.yml down
 ```
 
-Remove all existing Docker volumes:
+Remove all existing Docker volumes (be careful this command will remove all unused Docker volumes on your system):
 
 ```bash
 docker volume rm $(docker volume ls -q)
 ```
+
+> DSpace might face issue when changing its configuration and restarting it without deleting the volume it was using.
 
 ---
 
