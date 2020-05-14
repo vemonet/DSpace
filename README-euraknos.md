@@ -1,5 +1,7 @@
 ## Euraknos deployment
 
+Started from the latest [DSpace 7 beta release](https://github.com/DSpace/DSpace/releases): `dspace-7.0-beta2.1` (not the master to avoid getting an unstable version)
+
 DSpace installation instructions:
 
 * [On GitHub](https://github.com/DSpace/DSpace/blob/master/dspace/src/main/docker-compose/README.md) (the one used)
