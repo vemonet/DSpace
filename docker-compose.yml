@@ -15,6 +15,9 @@ services:
     ports:
     - published: 8080
       target: 8080
+    environment: 
+      - VIRTUAL_HOST=dspace.137.120.31.102.nip.io
+      - VIRTUAL_PORT=8080
     stdin_open: true
     tty: true
     volumes:
