@@ -19,7 +19,7 @@ services:
       DSPACE_NAMESPACE: /
       DSPACE_PORT: '3000'
       DSPACE_SSL: "false"
-    image: dspace/dspace-angular:latest
+    image: dspace/dspace-angular:dspace-7.0-beta2
     networks:
       dspacenet: {}
     ports:
